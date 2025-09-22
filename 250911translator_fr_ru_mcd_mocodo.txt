@@ -1,0 +1,3 @@
+FR: PRIMARY KEY (id),libelle
+TRADUIRE, _1N FR, 1N RU
+RU: PRIMARY KEY (id),libelle

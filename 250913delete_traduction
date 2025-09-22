@@ -1,0 +1,10 @@
+-- Définition de la variable pour l'ID de la traduction à supprimer
+SET @id_traduction_a_supprimer = 2;
+
+-- Suppression de l'entrée dans la table de liaison 'translate'
+DELETE FROM traductions
+WHERE id_traduction = @id_traduction_a_supprimer;
+
+-- Vérification de l'effet de la suppression
+-- Tenter de sélectionner l'entrée supprimée. Le résultat devrait être vide.
+SELECT * FROM traductions WHERE id_traduction = @id_traduction_a_supprimer;
