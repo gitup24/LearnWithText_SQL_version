@@ -2,11 +2,11 @@
 START TRANSACTION;
 
 -- Insérer le mot français et stocker son ID
-INSERT INTO mots_francais (mot_francais) VALUES ('rat');
+INSERT INTO mots_francais (mot_francais) VALUES ('pain');
 SET @id_francais = LAST_INSERT_ID();
 
 -- Insérer le mot russe et stocker son ID
-INSERT INTO mots_russes (mot_russe) VALUES ('cris');
+INSERT INTO mots_russes (mot_russe) VALUES ('kleb');
 SET @id_russe = LAST_INSERT_ID();
 
 -- Insérer la relation dans la table de traductions

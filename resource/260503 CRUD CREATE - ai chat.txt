@@ -1,0 +1,150 @@
+
+
+je veux realiser un crub sur la table "traductions" . Pour la fonction "creer_traduction", on passe en parametre un "mot_francais" et un "mot_russe" . Puis on verifie que le "mot_francais" et/ou le "mot_russe" n'existe pas. S'il existe deja , on le conserve. S'il n'existe pas, on le cree dans la table "mots_francais" ou "mots_russes". Puis on cree l'entrée correspondante dans la table "traductions" . Donne le script sql de la fonction "traductions"
+
+Voici un script MySQL pour créer une **procédure** qui : `creer_traduction`
+1. reçoit un et un , `mot_francais``mot_russe`
+2. vérifie si chaque mot existe déjà,
+3. crée le mot manquant dans ou , `mots_francais``mots_russes`
+4. crée ensuite l’association dans `traductions`,
+5. évite de créer deux fois la même traduction.
+
+En MySQL, pour ce type d’action avec INSERT, on utilise plutôt une procédure stockée qu’une fonction.
+
+DELIMITER //
+
+CREATE PROCEDURE creer_traduction(
+    IN p_mot_francais VARCHAR(255),
+    IN p_mot_russe VARCHAR(255)
+)
+BEGIN
+    DECLARE v_id_francais INT;
+    DECLARE v_id_russe INT;
+    DECLARE v_traduction_existe INT DEFAULT 0;
+
+    -- Vérifier si le mot français existe déjà
+    SELECT id_francais
+    INTO v_id_francais
+    FROM mots_francais
+    WHERE mot_francais = p_mot_francais
+    LIMIT 1;
+
+    -- Si le mot français n'existe pas, le créer
+    IF v_id_francais IS NULL THEN
+        INSERT INTO mots_francais (mot_francais)
+        VALUES (p_mot_francais);
+
+        SET v_id_francais = LAST_INSERT_ID();
+    END IF;
+
+    -- Vérifier si le mot russe existe déjà
+    SELECT id_russe
+    INTO v_id_russe
+    FROM mots_russes
+    WHERE mot_russe = p_mot_russe
+    LIMIT 1;
+
+    -- Si le mot russe n'existe pas, le créer
+    IF v_id_russe IS NULL THEN
+        INSERT INTO mots_russes (mot_russe)
+        VALUES (p_mot_russe);
+
+        SET v_id_russe = LAST_INSERT_ID();
+    END IF;
+
+    -- Vérifier si la traduction existe déjà
+    SELECT COUNT(*)
+    INTO v_traduction_existe
+    FROM traductions
+    WHERE id_francais = v_id_francais
+      AND id_russe = v_id_russe;
+
+    -- Créer la traduction si elle n'existe pas encore
+    IF v_traduction_existe = 0 THEN
+        INSERT INTO traductions (id_francais, id_russe)
+        VALUES (v_id_francais, v_id_russe);
+    END IF;
+END //
+
+DELIMITER ;
+
+
+# ## Utilisation
+
+CALL creer_traduction('bonjour', 'привет');
+
+# Version recommandée avec retour d’information
+Si tu veux savoir si la traduction a été créée ou si elle existait déjà :
+
+DELIMITER //
+
+CREATE PROCEDURE creer_traduction(
+    IN p_mot_francais VARCHAR(255),
+    IN p_mot_russe VARCHAR(255)
+)
+BEGIN
+    DECLARE v_id_francais INT DEFAULT NULL;
+    DECLARE v_id_russe INT DEFAULT NULL;
+    DECLARE v_traduction_existe INT DEFAULT 0;
+
+    SELECT id_francais
+    INTO v_id_francais
+    FROM mots_francais
+    WHERE mot_francais = p_mot_francais
+    LIMIT 1;
+
+    IF v_id_francais IS NULL THEN
+        INSERT INTO mots_francais (mot_francais)
+        VALUES (p_mot_francais);
+
+        SET v_id_francais = LAST_INSERT_ID();
+    END IF;
+
+    SELECT id_russe
+    INTO v_id_russe
+    FROM mots_russes
+    WHERE mot_russe = p_mot_russe
+    LIMIT 1;
+
+    IF v_id_russe IS NULL THEN
+        INSERT INTO mots_russes (mot_russe)
+        VALUES (p_mot_russe);
+
+        SET v_id_russe = LAST_INSERT_ID();
+    END IF;
+
+    SELECT COUNT(*)
+    INTO v_traduction_existe
+    FROM traductions
+    WHERE id_francais = v_id_francais
+      AND id_russe = v_id_russe;
+
+    IF v_traduction_existe = 0 THEN
+        INSERT INTO traductions (id_francais, id_russe)
+        VALUES (v_id_francais, v_id_russe);
+
+        SELECT 'Traduction créée' AS message,
+               v_id_francais AS id_francais,
+               v_id_russe AS id_russe;
+    ELSE
+        SELECT 'Traduction déjà existante' AS message,
+               v_id_francais AS id_francais,
+               v_id_russe AS id_russe;
+    END IF;
+END //
+
+DELIMITER ;
+
+# Important : contraintes conseillées
+Pour éviter les doublons même en cas d’appels simultanés, je te conseille fortement d’ajouter ces contraintes uniques :
+
+ALTER TABLE mots_francais
+ADD CONSTRAINT uq_mots_francais_mot UNIQUE (mot_francais);
+
+ALTER TABLE mots_russes
+ADD CONSTRAINT uq_mots_russes_mot UNIQUE (mot_russe);
+
+ALTER TABLE traductions
+ADD CONSTRAINT uq_traductions_fr_ru UNIQUE (id_francais, id_russe);
+
+Cela rendra ton CRUD beaucoup plus robuste.
