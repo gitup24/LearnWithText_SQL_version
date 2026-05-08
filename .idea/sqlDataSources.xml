@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="edf37e5e-49b5-476a-9a93-2a60c024eb4e" name="defaultdb@mysql-1c185804-duchatelle-95b9.i.aivencloud.com Mapping">
+      <data-sources db="63f77b8f-0288-45bd-a8a5-01ae4cb4e464" ddl="18035203-1bf3-4d1e-b3f4-41b5f914f7d3" />
+    </mapping>
+  </component>
+</project>

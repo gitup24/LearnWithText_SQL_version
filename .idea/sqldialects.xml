@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/63f77b8f-0288-45bd-a8a5-01ae4cb4e464/console_21.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/250911translator_fr_ru_initialization.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/250913CREATE TABLE traductions.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/250913creation de la table pour mots_francais mots_russe traductions.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/250913update_mot_russse.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/RechercheTraductionsParMotFrancais-appel_routine.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/RechercheTraductionsParMotFrancais-creation_routine.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/RechercheTraductionsParMotRusse-appel_routine.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/RechercheTraductionsParMotRusse-creation_routine.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/create-traduction.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/create_new_translation.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/cree_procedure_stockee_InsererToutesLesTraductions_a_partir_de_temp_traductions.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/cree_procedure_stockee_pour_creer_traduction.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/creer_procedure_stokee_AjouterNouvelleTraduction.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/execute_procedure_stockee_creer_traduction.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/execute_procedure_stockee_creer_une_traduction.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/lwt_backup_modifie.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/procedure_stockee_create_traduction.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/set_mot_russe.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/tmp_mysql_table_for_restoring_tsv_table.sql" dialect="MySQL" />
+  </component>
+</project>

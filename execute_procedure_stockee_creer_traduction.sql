@@ -1,2 +1,1 @@
-CALL creer_traduction('rat', 'cris');
-
+CALL creer_traduction('pouce', 'палец');

@@ -54,6 +54,7 @@ BEGIN
 
     -- Vérifier si la traduction existe déjà
     SELECT COUNT(*)
+    -- pr symetrie
     INTO v_traduction_existe
     FROM traductions
     WHERE id_francais = v_id_francais

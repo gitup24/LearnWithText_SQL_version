@@ -7,6 +7,7 @@ CREATE PROCEDURE creer_traduction(
 BEGIN
     DECLARE v_id_francais INT;
     DECLARE v_id_russe INT;
+    DECLARE v_id_traduction INT;
 
     START TRANSACTION;
 
@@ -20,11 +21,15 @@ BEGIN
 
     -- Créer la relation
     INSERT INTO traductions (id_francais, id_russe) VALUES (v_id_francais, v_id_russe);
+    SET v_id_traduction = LAST_INSERT_ID();
 
     COMMIT;
 
-    -- Afficher la vue pour vérifier l’insertion
-    SELECT * FROM vue_traductions_fr_ru;
+    -- Afficher les résultats avec l'id_traduction
+    SELECT v_id_traduction AS id_traduction,
+           v_id_francais AS id_francais,
+           v_id_russe AS id_russe,
+           'Traduction créée avec succès' AS message;
 END$$
 
 DELIMITER ;
